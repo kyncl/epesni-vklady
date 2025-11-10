@@ -1,31 +1,33 @@
-import { getValidCzechMonthformat } from "../lib/monthsCzech";
+import { getValidCzechMonthformat } from "../lib/formatting/monthsCzech";
 import { calculateRateEvaluation } from "../lib/rateEvaluation";
-import type { Rate } from "../objects/Rate";
+import type { BankRate } from "../lib/selectedRate";
 import { tax } from "./App";
 
 interface RateProps {
-    rate: Rate | null,
+    selectedRate: BankRate | null,
     depositMoney: number
 };
 
 export const RateStats = (
-    { rate, depositMoney }
+    { selectedRate, depositMoney }
         : RateProps
 ) => {
-    if (!rate)
+    if (!selectedRate)
         return <div></div>;
 
-    const evaluation = calculateRateEvaluation(depositMoney, rate.offeredRate, tax);
+    const rate = selectedRate.rate;
+    const evaluation = calculateRateEvaluation(depositMoney, rate, tax);
     const sum = evaluation.afterTaxes + depositMoney;
     return (
         <div className="bg-black/55 rounded-xl p-5 m-2.5 sm:w-fit">
             <h4 className="text-3xl">Shrnutí informací</h4>
             <ul className="text-left text-lg">
-                <li>Vklad: <b>{depositMoney.toFixed(2)} CZK</b></li>
-                <li>Nabídka: <b>{rate.offeredRate.toFixed(2)}% pro {rate.months} {getValidCzechMonthformat(rate.months)}</b></li>
-                <li>Bez dane: <b>{evaluation.beforeTaxes.toFixed(2)} CZK</b></li>
-                <li>Po danich: <b>{evaluation.afterTaxes.toFixed(2)} CZK ({evaluation.taxesDiff.toFixed(2)} CZK)</b></li>
-                <li>Celkem: <b>{sum.toFixed(2)} CZK</b></li>
+                <li>Vybraná banka: <b>{selectedRate.bank}</b></li>
+                <li>Vklad: <b>{depositMoney.toLocaleString()} CZK</b></li>
+                <li>Nabídka: <b>{rate.offeredRate.toLocaleString()}% pro {rate.months} {getValidCzechMonthformat(rate.months)}</b></li>
+                <li>Bez dane: <b>{evaluation.beforeTaxes.toLocaleString()} CZK</b></li>
+                <li>Po danich: <b>{evaluation.afterTaxes.toLocaleString()} CZK ({evaluation.taxesDiff.toLocaleString()} CZK)</b></li>
+                <li>Celkem: <b>{sum.toLocaleString()} CZK</b></li>
             </ul>
         </div>
     );

@@ -1,13 +1,13 @@
 import type { Dispatch } from "react";
 import { getBanksRates } from "../lib/banks";
 import { RateEvaluation } from "./RateEvaluation";
-import type { Rate } from "../objects/Rate";
-import { moveAtStart } from "../lib/general";
-import { getValidCzechMonthformat } from "../lib/monthsCzech";
+import { moveAtStart } from "../lib/scrolling";
+import type { BankRate } from "../lib/selectedRate";
+import { getValidCzechMonthformat } from "../lib/formatting/monthsCzech";
 
 interface bankComparingProps {
     depositMoney: number,
-    setCurrentRate: Dispatch<Rate | null>
+    setCurrentRate: Dispatch<BankRate | null>
 }
 
 export const BankComparing = ({ depositMoney, setCurrentRate }: bankComparingProps) => {
@@ -27,14 +27,14 @@ export const BankComparing = ({ depositMoney, setCurrentRate }: bankComparingPro
                                     <button
                                         className="w-full"
                                         onClick={(_e) => {
-                                            setCurrentRate(rate);
+                                            setCurrentRate({ bank: bank.name, rate: rate });
                                             moveAtStart();
                                         }}
                                     >
                                         {rate.months} {getValidCzechMonthformat(rate.months)} ({rate.offeredRate}%)
                                         <RateEvaluation
                                             depositMoney={depositMoney}
-                                            offeredRate={rate.offeredRate}
+                                            offeredRate={rate}
                                         />
                                     </button>
                                 </li>

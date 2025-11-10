@@ -1,4 +1,5 @@
 import type { Bank } from "../objects/Bank";
+import type { BankRate } from "./selectedRate";
 
 export const getBanksRates = (): Bank[] => {
     const kb: Bank = {
@@ -42,4 +43,26 @@ export const getBanksRates = (): Bank[] => {
     }
 
     return [kb, moneta];
+}
+
+export const getBanksSupportingMonth = (month: number, banks: Bank[]): BankRate[] => {
+    let supportedRates: BankRate[] = [];
+    banks.forEach((bank) => {
+        bank.rates.forEach((rate) => {
+            if (rate.months === month) {
+                supportedRates.push({ bank: bank.name, rate: rate });
+            }
+        });
+    });
+    return supportedRates;
+}
+
+export const getBestBankOffer = (banksRate: BankRate[]): BankRate | null => {
+    let bestRate: BankRate | null = null;
+    banksRate.forEach((rate) => {
+        if (!bestRate || rate.rate.offeredRate > bestRate.rate.offeredRate) {
+            bestRate = rate;
+        }
+    });
+    return bestRate;
 }

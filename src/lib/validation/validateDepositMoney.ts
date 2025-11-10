@@ -6,6 +6,3 @@ export const validDepositMoney = (value: any): number => {
     return 0;
 };
 
-export const moveAtStart = () => {
-    window.scrollTo(0, 0);
-}

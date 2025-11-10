@@ -1,3 +1,5 @@
+import type { Rate } from "../objects/Rate";
+
 export interface EvaluationResult {
     beforeTaxes: number,
     afterTaxes: number,
@@ -6,15 +8,16 @@ export interface EvaluationResult {
 
 export const calculateRateEvaluation = (
     depositMoney: number,
-    offeredRate: number,
-    tax: number
+    offeredRate: Rate,
+    tax: number,
 ): EvaluationResult => {
-    const evaluation = depositMoney * offeredRate / 100;
-    const taxes = evaluation * tax / 100;
-    const afterTaxes = evaluation - taxes;
+    const evaluation = depositMoney * offeredRate.offeredRate / 100;
+    const evaluationWithPA = evaluation * (offeredRate.months / 12);
+    const taxes = evaluationWithPA * tax / 100;
+    const afterTaxes = evaluationWithPA - taxes;
     return {
         afterTaxes: afterTaxes,
-        beforeTaxes: evaluation,
+        beforeTaxes: evaluationWithPA,
         taxesDiff: taxes
     }
 }
