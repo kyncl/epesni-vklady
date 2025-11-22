@@ -1,4 +1,4 @@
-import { calculateRateEvaluation } from "../lib/rateEvaluation";
+import { calculateRateEvaluation } from "../lib/calculateRateEvaluation";
 import type { Rate } from "../objects/Rate";
 import { tax } from "./App";
 
@@ -11,6 +11,6 @@ export const RateEvaluation = ({ depositMoney, offeredRate }: rateEvaluationProp
         return <></>;
     const evaluation = calculateRateEvaluation(depositMoney, offeredRate, tax);
     const afterTaxes = evaluation.afterTaxes;
-    return <span>: {afterTaxes.toLocaleString()} CZK</span>;
+    return <span>: {afterTaxes.toFixed(2).toLocaleString()} CZK</span>;
 };
 

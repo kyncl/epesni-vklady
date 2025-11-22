@@ -42,7 +42,51 @@ export const getBanksRates = (): Bank[] => {
         ]
     }
 
-    return [kb, moneta];
+    const sporitelna: Bank = {
+        name: "Česká spořitelna",
+        rates: [
+            {
+                months: 1,
+                offeredRate: 1.95
+            },
+            {
+                months: 3,
+                offeredRate: 2.25
+            },
+            {
+                months: 6,
+                offeredRate: 2.2
+            },
+            {
+                months: 12,
+                offeredRate: 1.85
+            }
+        ]
+    }
+
+    const airbank: Bank = {
+        name: "Air bank",
+        rates: [
+            {
+                months: 1,
+                offeredRate: 2.7
+            },
+            {
+                months: 3,
+                offeredRate: 3.2
+            },
+            {
+                months: 6,
+                offeredRate: 3
+            },
+            {
+                months: 12,
+                offeredRate: 3
+            }
+        ]
+    };
+
+    return [kb, moneta, sporitelna, airbank];
 }
 
 export const getBanksSupportingMonth = (month: number, banks: Bank[]): BankRate[] => {

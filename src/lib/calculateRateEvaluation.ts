@@ -9,11 +9,11 @@ export interface EvaluationResult {
 export const calculateRateEvaluation = (
     depositMoney: number,
     offeredRate: Rate,
-    tax: number,
+    taxRate: number,
 ): EvaluationResult => {
     const evaluation = depositMoney * offeredRate.offeredRate / 100;
     const evaluationWithPA = evaluation * (offeredRate.months / 12);
-    const taxes = evaluationWithPA * tax / 100;
+    const taxes = evaluationWithPA * taxRate / 100;
     const afterTaxes = evaluationWithPA - taxes;
     return {
         afterTaxes: afterTaxes,
